@@ -12,3 +12,4 @@
 
 ## OBS
    * Cada um vai ter a sua branch, o front e o back já inicia, o PWA so vai entrar no final
+   * Assim que cada um tiver finalizado sua branch, passamos para a DEVELOP, faz os testes e ajusta, assim que tiver finalizado passa para a principal MAIN
