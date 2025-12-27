@@ -3,10 +3,9 @@ Trabalho de conclusão do curso da proz
 -------------------------------------------
 
 Geraldo e Bia -> Front e UX/UI (React + Typescript)
-
 Sarah -> Back end (Node.js + Express + PostgreeSQL)
-
 Yan -> PWA (React + WorkBox)
+
 ---------------------------------------------
 
 Com utilizar o git hub:
