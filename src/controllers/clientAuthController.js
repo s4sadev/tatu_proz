@@ -25,7 +25,11 @@ function validaPhone(numero) {
 }
 
 exports.checkPhone = async (req, res) => {
+    console.log('➡️ ROTA check-phone CHAMADA')
+    console.log('BODY:', req.body)
+    console.log('HEADERS:', req.headers['content-type'])
   const { telefone } = req.body
+  
 
   if (!telefone) {
     return res.status(400).json({ error: 'Telefone obrigatório' })

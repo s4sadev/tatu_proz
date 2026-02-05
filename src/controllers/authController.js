@@ -1,3 +1,5 @@
+const { sendEmail } = require('../services/emailService')
+
 exports.authMiddleware = function(req, res, next) {
 const authHeader =
   req.headers.authorization || req.headers.Authorization
@@ -188,3 +190,31 @@ exports.authMe = async (req, res) => {
 //     res.status(500).json({ error: 'Erro ao salvar horários' })
 //   }
 // })
+
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email é obrigatório' })
+    }
+
+    console.log('Enviando email para:', email)
+
+    await sendEmail({
+      to: email,
+      subject: 'Recuperação de senha',
+      html: `
+        <p>Você solicitou a recuperação de senha.</p>
+        <p>Se não foi você, ignore este e-mail.</p>
+      `
+    })
+
+    console.log('Email enviado com sucesso')
+
+    return res.json({ message: 'Email enviado' })
+  } catch (err) {
+    console.error('Erro ao enviar email:', err)
+    return res.status(500).json({ error: 'Erro ao enviar email' })
+  }
+}
