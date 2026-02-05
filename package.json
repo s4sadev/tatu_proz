@@ -1,0 +1,39 @@
+{
+  "name": "tatu_proz",
+  "version": "1.0.0",
+  "description": "Geraldo e Bia -> Front e UX/UI (React + Typescript)     Sarah -> Back end (Node.js + Express + PostgreeSQL)       Yan -> PWA (React + WorkBox)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s4sadev/tatu_proz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/s4sadev/tatu_proz/issues"
+  },
+  "homepage": "https://github.com/s4sadev/tatu_proz#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.94.1",
+    "@whiskeysockets/baileys": "^7.0.0-rc.9",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
+    "pdfkit": "^0.15.2",
+    "postgres": "^3.4.7",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "web-push": "^3.6.7"
+  }
+}
