@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Escanear QR Code WhatsApp</title>
+    <style>
+        button { margin: 5px; }
+    </style>
+</head>
+<body>
+    <div id="status">Verificando status...</div>
+
+    <div id="qr-container" style="display: none;">
+        <h2>Escanear QR Code</h2>
+        <img id="qr-image" src="" alt="QR Code">
+        <p>1. Abra o WhatsApp no seu celular</p>
+        <p>2. Toque em ⋮ → Dispositivos conectados → Conectar um dispositivo</p>
+        <p>3. Aponte a câmera para o QR code acima</p>
+    </div>
+
+    <button id="btn-init" onclick="initConnect()">Conectar</button>
+    <button id="btn-out" onclick="logout()">Desconectar</button>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const qrContainer = document.getElementById('qr-container');
+        const qrImage = document.getElementById('qr-image');
+        const btnInit = document.getElementById('btn-init');
+        const btnOut = document.getElementById('btn-out');
+
+        async function checkStatus() {
+            try {
+                const response = await fetch('api/zap/status');
+                const data = await response.json();
+                console.log('STATUS', data)
+                // RESET VISUAL (importante)
+                qrContainer.style.display = 'none';
+                btnInit.disabled = true;
+                btnOut.disabled = true;
+
+                switch (data.state) {
+                    case 'CONNECTED':
+                        statusEl.innerHTML = `Conectado como: ${data.user?.id || 'Usuário'}`;
+                        btnOut.disabled = false;
+                        break;
+
+                    case 'WAITING_QR':
+                        statusEl.innerHTML = 'Aguardando escaneamento...';
+                        qrContainer.style.display = 'block';
+                        btnOut.disabled = false;
+                        await getQrCode();
+                        break;
+
+                    case 'DISCONNECTED':
+                        statusEl.innerHTML = 'Desconectado. Clique para gerar um novo QR Code.';
+                        btnInit.disabled = false;
+                        break;
+                    case null:
+                        statusEl.innerHTML = 'Estado nulo. Clique para conectar.';
+                        btnInit.disabled = false;
+                        btnOut.disabled = false;
+                        break
+                    default:
+                        statusEl.innerHTML = 'Estado desconhecido';
+                        console.log('Estado inesperado:', data);
+
+                }
+            } catch (error) {
+                console.error('Erro ao verificar status:', error);
+                statusEl.innerHTML = 'Erro ao verificar status';
+            }
+        }
+
+        async function getQrCode() {
+            try {
+                const response = await fetch('api/zap/qr');
+                const data = await response.json();
+
+                if (data.qrCode) {
+                    qrImage.src = data.qrCode;
+                }
+            } catch (error) {
+                console.error('Erro ao obter QR Code:', error);
+            }
+        }
+
+        async function logout() {
+            btnOut.disabled = true;
+            try {
+                await fetch('api/zap/logout', { method: 'POST' });
+            } catch (error) {
+                console.error('Erro ao desconectar:', error);
+            } finally {
+                btnOut.disabled = false;
+            }
+        }
+
+        async function initConnect() {
+            btnInit.disabled = true;
+            try {
+                await fetch('api/zap/init', { method: 'POST' });
+            } catch (error) {
+                console.error('Erro ao conectar:', error);
+            } finally {
+                btnInit.disabled = false;
+            }
+        }
+
+        // 🔁 UM ÚNICO LOOP (fonte da verdade)
+        setInterval(checkStatus, 2000);
+        checkStatus();
+    </script>
+</body>
+</html>
