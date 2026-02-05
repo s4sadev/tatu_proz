@@ -19,19 +19,46 @@ const agendamentoRoutes = require('./agendamentoRoutes')
 const zapRoute = require('./whatsappRoutes')
 const dashboardRoutes = require('./dashboardRoutes')
 const financeRoutes = require('./financeRoutes')
+const authRoutes = require('./authRoutes')
+const clientAuthRoutes = require('./clientAuthRoutes')
+const portfolioRoutes = require('./portfolioRoutes')
+const pushNotificationRoutes = require('./pushNotificationRoutes')
+const availabilityRoutes = require('./availabilityRoutes')
+
+// ⭐ INICIALIZAR SCHEDULER ⭐
+const { startScheduler } = require('../scheduler/appointmentReminder')
+startScheduler()
 
 // Rota raiz
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
 
+// agendamentos
 app.use('/api/agendamentos', agendamentoRoutes) //
 
+// teste zap
 app.use('/api/zap', zapRoute )
 
-// Rotas financeiras e dashboard
+// admin
 app.use('/api/dashboard', dashboardRoutes)
 app.use('/api/finances', financeRoutes)
+
+// auth admin
+app.use('/api/auth', authRoutes)
+
+// client 
+app.use('/api/client', clientAuthRoutes)
+
+// portfolio
+app.use('/api/portfolio', portfolioRoutes)
+
+// push notifications
+app.use('/api/push', pushNotificationRoutes)
+
+// availability (horários disponíveis)
+app.use('/api/availability', availabilityRoutes)
+
 // caso a porta nao esteja on
 const PORT = process.env.PORT || 3000
 

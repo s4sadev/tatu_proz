@@ -74,8 +74,5 @@ router.post('/:id/cancel', agendamentoController.updateCancel)
 // Rota POST /api/agendamentos/id/ -> Executa a ação de confirmar um agendamento
 router.post('/:id/pendence', agendamentoController.updatePendence)
 
-// Rota GET /api/agendamentos/id -> Busca pelo ID fornecido
-
-
 // router
 module.exports = router

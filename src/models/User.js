@@ -3,7 +3,7 @@ const sql = require('../config/db')
 // criar usuario
 const User = {
     async create(userData){
-        const {name, email, senha} = userData
+        const {email, senha} = userData
         const result = await sql`
             INSERT INTO users (name, email, senha)
             VALUES (${name}, ${email}, ${senha})
